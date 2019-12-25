@@ -1,6 +1,7 @@
-﻿import requests 
+import requests 
 import sys 
 import argparse
+from datetime import datetime
 
 
 if __name__ == "__main__":
@@ -17,6 +18,16 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	url = args.u
 	wd = args.w
+	
+
+	now = datetime.now()
+	dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+	print("----------------------------------------------------------------------")	
+	print("Date -", dt_string)	
+	print("URL - "+url)
+	print("Wordlist - "+wd)	
+	print("----------------------------------------------------------------------\n")	
 
 	try:
 		if (url is not None and wd is not None):
@@ -37,7 +48,7 @@ if __name__ == "__main__":
 				if req.status_code != 200:
 					print(final, end='\r')
 				else:
-					print("++++++++++++++++++++++++++ >   "+final+"\n")
+					print("++++++++++++++++++++++++++ >   "+final)
 	
 	
 		else:
@@ -46,3 +57,6 @@ if __name__ == "__main__":
 
 	except requests.exceptions.MissingSchema:
 		print('Please provide corrrect URL  (eg: http://example.com  or  https://example.com)\n')
+
+	except requests.exceptions.ConnectionError:
+		print("\n")
