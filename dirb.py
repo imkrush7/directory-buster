@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser()
 
-	parser.add_argument('--u', help='Add valid URL (Ex: https://example.com)')
+	parser.add_argument('--u', help='Add valid URL (Ex: python dirb.py --u https://example.com [--w wordlist_name])')
 
 	parser.add_argument('--w', default='wd_common', choices=["wd_main","wd_common"], help='Choose Wordlist')
 
