@@ -14,18 +14,18 @@ if __name__ == "__main__":
 
 	
 
-	print('\n\n		 _   __  ')
+	print('\n		 _   __  ')
 	print('		| | / / ')
 	print('		| |/ / ')
 	print('		| |\ \ ')
-	print('		| | \ \ \n\n')
+	print('		| | \ \ ')
 
 
 		
 
 	parser = argparse.ArgumentParser()
 
-	parser.add_argument('--u', help='Add valid URL (Ex: python dirb.py --u https://example.com [--w wordlist_name])')
+	parser.add_argument('--u', help='Add valid URL (Ex: https://example.com)')
 
 	parser.add_argument('--w', default='wd_common', choices=["wd_main","wd_common"], help='Choose Wordlist')
 
@@ -54,18 +54,6 @@ if __name__ == "__main__":
 
 
 
-	print("----------------------------------------------------\n")	
-
-	print(" Date		-      ",dt_string)	
-
-	print(" URL		- 	"+url)
-
-	print(" Wordlist 	-	"+wdname)	
-	print("\n 	Word Count: ", count, "\n")
-
-	print("----------------------------------------------------\n")	
-
-
 
 	try:
 
@@ -73,15 +61,23 @@ if __name__ == "__main__":
 
 	
 
+			print("----------------------------------------------------")	
+
+			print(" Date		-      ",dt_string)	
+
+			print(" Wordlist 	-	"+wdname)	
+
+			print(" URL		- 	"+url)
+			print("\n 	Word Count: ", count)
+
+			print("----------------------------------------------------\n")	
+
 			
 
 			if url[-1] != '/':
 
 			    url += '/'
 
-		
-
-			wdname = wd+".txt"
 
 	
 
@@ -95,17 +91,17 @@ if __name__ == "__main__":
 
 			
 
-				req = requests.get(final)
+				req = requests.get(final, allow_redirects=False)
 
-	
+				code = req.status_code
+				
 
-				if req.status_code != 200:
+				if code== 200 or code== 202 or code== 204 or code== 302 or code== 400 or code== 401 or code== 403 or code== 405 or code== 408 or code== 500 or code== 501 or code== 502 or code== 503 or code== 504:
+
+					print(" +++ > "+final+" (code:"+str(code)+")")
+				else:	
 
 					print(final, end='\r')
-
-				else:
-
-					print("++++++++++++++++++++++++++ >   "+final)
 
 	
 
@@ -113,7 +109,7 @@ if __name__ == "__main__":
 
 		else:
 
-			print('Please provide valid URL !')
+			print('\nPlease provide valid URL !')
 
 			print('For more help use -h option\n\n')	
 
@@ -129,6 +125,9 @@ if __name__ == "__main__":
 
 		print("\n")
 
+
+	except requests.exceptions.TooManyRedirects:
+		print("\n")
 
 	except KeyboardInterrupt:
 		print("\nExit\n")
